@@ -1,17 +1,14 @@
-from PathHelpers import createPath, directoriesOnly, includePath, srcPath, getFileName
-
-def getGuardName(fileName: str, extension: str):
-  return fileName.upper() + '_' + extension.upper()
+from PathHelpers import createPath, directoriesOnly, includePath, srcPath, getFileName, posixPath
 
 # Add #endif after this manually
 def headerGuard(file, fileName: str, extension: str):
-  guardName = getGuardName(fileName, extension)
+  guardName = fileName.upper() + '_' + extension.upper()
 
   file.write("#ifndef " + guardName)
   file.write("\n#define " + guardName)
 
 def include(file, classPath: str, extension: str):
-  file.write("#include \"" + classPath + '.' + extension + '"')
+  file.write("#include \"" + posixPath(classPath) + '.' + extension.lower() + '"')
 
 def endif(file):
   file.write("\n#endif")
@@ -25,12 +22,12 @@ def genCClass(classPath: str):
   createPath(directoriesOnly(sourcesClassPath))
 
   with open(includeClassPath + ".h", 'w') as includeFile:
-    headerGuard(includeFile, fileName, "H")
-    includeFile.write("\n")
+    headerGuard(includeFile, fileName, 'h')
+    includeFile.write("\n\n\n")
     endif(includeFile)
 
   with open(sourcesClassPath + ".c", 'w') as srcFile:
-    include(srcFile, classPath, "H")
+    include(srcFile, classPath, 'h')
     srcFile.write("\n")
 
 def genCppClass(classPath: str):
@@ -42,12 +39,16 @@ def genCppClass(classPath: str):
   createPath(directoriesOnly(sourcesClassPath))
 
   with open(includeClassPath + ".hpp", 'w') as includeFile:
-    headerGuard(includeFile, fileName, "HPP")
-    includeFile.write("\nclass " + fileName + " {")
-    includeFile.write("\n\tprivate:\n\t\n\tpublic:")
-    includeFile.write("\n\n}\n")
+    headerGuard(includeFile, fileName, "hpp")
+    includeFile.write("\n\nclass " + fileName + " {")
+    includeFile.write("\n\tprivate:\n\n\tpublic:")
+    includeFile.write("\n\t\t" + fileName + "();")
+    includeFile.write("\n\t\t~" + fileName + "();")
+    includeFile.write("\n};\n")
     endif(includeFile)
 
   with open(sourcesClassPath + ".cpp", 'w') as srcFile:
-    include(srcFile, classPath, "HPP")
+    include(srcFile, classPath, "hpp")
+    srcFile.write("\n\n" + fileName + "::" + fileName + "() {\n\n}")
+    srcFile.write("\n\n" + fileName + "::~" + fileName + "() { }")
     srcFile.write("\n")

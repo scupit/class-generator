@@ -28,4 +28,7 @@ def directoriesOnly(pathString: str) -> str:
 
 def getFileName(pathString: str) -> str:
   sepIndex = pathString.rfind(os.path.sep)
-  return pathString if sepIndex == -1 else pathString[sepIndex + 1]
+  return pathString if sepIndex == -1 else pathString[sepIndex + 1:]
+
+def posixPath(pathString: str) -> str:
+  return pathString.replace(os.path.sep, '/')
