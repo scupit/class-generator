@@ -4,7 +4,7 @@ from LanguageHelpers import isValidLanguage, genClassByLanguage
 
 if len(sys.argv) > 1:
 
-  if [sys.argv[1][0] == '-']:
+  if sys.argv[1][0] == '-':
     if sys.argv[1] == "--help":
       print("Give this command a language and a filename. See --options or -o for language options")
       print("Like this:", sys.argv[0], "c ClassName")
