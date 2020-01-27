@@ -1,4 +1,4 @@
-from PathHelpers import createPath, directoriesOnly, includePath, srcPath, getFileName, posixPath
+from PathHelpers import createPath, directoriesOnly, includePath, srcPath, getFileName, posixPath, joinExtension
 
 # Add #endif after this manually
 def headerGuard(file, fileName: str, extension: str):
@@ -12,6 +12,11 @@ def include(file, classPath: str, extension: str):
 
 def endif(file):
   file.write("\n#endif")
+
+def successConfirmation(classPath, headerExtension, sourceExtension):
+  print("Header and source generated successfully!")
+  print("Header at", joinExtension(includePath(classPath), headerExtension))
+  print("Source at", joinExtension(srcPath(classPath), sourceExtension))
 
 def genCClass(classPath: str):
   includeClassPath = includePath(classPath)
@@ -29,6 +34,8 @@ def genCClass(classPath: str):
   with open(sourcesClassPath + ".c", 'w') as srcFile:
     include(srcFile, classPath, 'h')
     srcFile.write("\n")
+
+  successConfirmation(classPath, 'h', 'c')
 
 def genCppClass(classPath: str):
   includeClassPath = includePath(classPath)
@@ -52,3 +59,5 @@ def genCppClass(classPath: str):
     srcFile.write("\n\n" + fileName + "::" + fileName + "() {\n\n}")
     srcFile.write("\n\n" + fileName + "::~" + fileName + "() { }")
     srcFile.write("\n")
+
+  successConfirmation(classPath, 'hpp', 'cpp')

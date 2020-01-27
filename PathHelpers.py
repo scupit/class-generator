@@ -16,6 +16,9 @@ def createPath(pathString: str):
 def includePath(pathString: str) -> str:
   return "include" + os.path.sep + pathString
 
+def joinExtension(fileName: str, extension) -> str:
+  return fileName + '.' + extension
+
 def srcPath(pathString: str) -> str:
   return "src" + os.path.sep + pathString
 
