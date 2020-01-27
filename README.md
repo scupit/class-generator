@@ -6,7 +6,9 @@ The script takes two arguments:
 * Language (c, cpp, c++, cxx)
 * File Name
 
-File name can be either a single word or path
+These are then used to generate a header and inplementation file by language.
+The file name can be either a single word or path
+
 **Ex:** `python main.py c FileName` creates
 * include/FileName.h
 * src/FileName.c
