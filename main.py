@@ -16,8 +16,10 @@ if len(sys.argv) > 1:
   else:
     if (isValidLanguage(sys.argv[1])):
       if len(sys.argv) > 2:
-        # Guarantees the path does not contain any special characters or special dir paths
-        genClassByLanguage(sys.argv[1], str(Path(sys.argv[2]).resolve()))
+        for i in range(2, len(sys.argv)):
+          # Guarantees the path does not contain any special characters or special dir paths
+          genClassByLanguage(sys.argv[1], str(Path(sys.argv[i]).resolve()))
+          print()
       else:
         print("You must provide a class name or class path")
 
