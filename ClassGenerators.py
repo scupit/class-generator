@@ -56,8 +56,8 @@ def genCppClass(classPath: str):
 
   with open(sourcesClassPath + ".cpp", 'w') as srcFile:
     include(srcFile, classPath, "hpp")
-    srcFile.write("\n\n" + fileName + "::" + fileName + "() {\n\n}")
-    srcFile.write("\n\n" + fileName + "::~" + fileName + "() { }")
+    srcFile.write("\n\n" + fileName + "::" + fileName + "()\n{\n\n}")
+    srcFile.write("\n\n" + fileName + "::~" + fileName + "() {\n\n}")
     srcFile.write("\n")
 
   successConfirmation(classPath, 'hpp', 'cpp')
